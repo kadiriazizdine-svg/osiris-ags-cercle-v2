@@ -111,7 +111,7 @@ module.exports = async function handler(req, res) {
   // Test de connexion : /api/inscription?check=1
   if (req.method === "GET") {
     if (!process.env.SYSTEME_API_KEY) return res.status(200).json({ systeme: "clé manquante (SYSTEME_API_KEY)", meta: !!process.env.META_CAPI_TOKEN });
-    try { const r = await call("GET", "/tags?limit=1"); return res.status(200).json({ systeme: r.ok ? "ok" : "erreur " + r.status, meta: !!process.env.META_CAPI_TOKEN }); }
+    try { const r = await call("GET", "/tags?limit=10"); return res.status(200).json({ systeme: r.ok ? "ok" : "erreur " + r.status, detail: r.ok ? undefined : r.data, meta: !!process.env.META_CAPI_TOKEN }); }
     catch (e) { return res.status(200).json({ systeme: "injoignable", meta: !!process.env.META_CAPI_TOKEN }); }
   }
   if (req.method !== "POST") return res.status(405).json({ ok: false });
